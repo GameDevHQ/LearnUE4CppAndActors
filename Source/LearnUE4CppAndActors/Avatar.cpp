@@ -9,7 +9,9 @@ AAvatar::AAvatar()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+    
+    MaxHP = 100.f;
+    CurrentHP = 100.f;
 }
 
 // Called when the game starts or when spawned
@@ -33,9 +35,7 @@ void AAvatar::SetupPlayerInputComponent(class UInputComponent* InputComponent)
     
     // Bind movement actions
     InputComponent->BindAxis("Forward", this, &AAvatar::MoveForward);
-    InputComponent->BindAxis("Left", this, &AAvatar::MoveLeft);
-    InputComponent->BindAxis("Right", this, &AAvatar::MoveRight);
-    InputComponent->BindAxis("Backward", this, &AAvatar::MoveBackward);
+    InputComponent->BindAxis("Strafe", this, &AAvatar::MoveStrafe);
     
     // Mouse events
     InputComponent->BindAxis("Yaw", this, &AAvatar::Yaw);
@@ -51,30 +51,13 @@ void AAvatar::MoveForward(float amount)
     }
 }
 
-void AAvatar::MoveLeft(float amount)
-{
-    if (Controller && amount)
-    {
-        FVector left = -GetActorRightVector();
-        AddMovementInput(left, amount);
-    }
-}
 
-void AAvatar::MoveRight(float amount)
+void AAvatar::MoveStrafe(float amount)
 {
     if (Controller && amount)
     {
         FVector right = GetActorRightVector();
         AddMovementInput(right, amount);
-    }
-}
-
-void AAvatar::MoveBackward(float amount)
-{
-    if (Controller && amount)
-    {
-        FVector backward = -GetActorForwardVector();
-        AddMovementInput(backward, amount);
     }
 }
 

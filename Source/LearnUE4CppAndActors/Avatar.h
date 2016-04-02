@@ -23,11 +23,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=PlayerAttributes)
+    float MaxHP;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=PlayerAttributes)
+    float CurrentHP;
+    
 	// Movement actions
     void MoveForward(float amount);
-    void MoveLeft(float amount);
-    void MoveRight(float amount);
-    void MoveBackward(float amount);
+    void MoveStrafe(float amount);
     
     // Mouse rotate
     void Yaw(float amount);
