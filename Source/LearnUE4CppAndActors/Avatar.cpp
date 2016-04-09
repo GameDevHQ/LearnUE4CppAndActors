@@ -12,6 +12,8 @@ AAvatar::AAvatar()
     
     MaxHP = 100.f;
     CurrentHP = 100.f;
+    Backpack = TMap<FString, int>();
+    Icons = TMap<FString, UTexture2D*>();
 }
 
 // Called when the game starts or when spawned
@@ -40,6 +42,9 @@ void AAvatar::SetupPlayerInputComponent(class UInputComponent* InputComponent)
     // Mouse events
     InputComponent->BindAxis("Yaw", this, &AAvatar::Yaw);
     InputComponent->BindAxis("Pitch", this, &AAvatar::Pitch);
+    
+    // InventorySubsytems
+    InputComponent->BindAction("Inventory", IE_Pressed, this, &AAvatar::ToggleInventory);
 }
 
 void AAvatar::MoveForward(float amount)
@@ -72,3 +77,27 @@ void AAvatar::Pitch(float amount)
     float value = 200.f * amount * GetWorld()->GetDeltaSeconds();
     AddControllerPitchInput(value);
 }
+
+void AAvatar::ToggleInventory()
+{
+    if (GEngine)
+    {
+        GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, "Showing inventory...");
+    }
+}
+
+void AAvatar::Pickup(APickupItem* item)
+{
+    if(Backpack.Find(item->Name))
+    {
+        Backpack[item->Name] += item->Quantity;
+    }
+    else
+    {
+        Backpack.Add(item->Name, item->Quantity);
+        Icons.Add(item->Name, item->Icon);
+    }
+}
+
+
+
