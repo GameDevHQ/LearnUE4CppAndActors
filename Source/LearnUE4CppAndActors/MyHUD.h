@@ -10,21 +10,77 @@ struct Message
 {
     FString message;
     float time;
-    FColor color;
+    FColor frontColor;
+    FColor backColor;
     UTexture2D* icon;
     
     Message()
     {
+        // Set the default time.
         time = 5.f;
-        color = FColor::White;
+        frontColor = FColor::White;
+        backColor = FColor::Black;
     }
     
-    Message(FString message, float time, FColor color, UTexture2D* icon)
+    Message( FString iMessage, float iTime, FColor iFrontColor, FColor iBackColor )
     {
-        this->message = message;
-        this->time = time;
-        this->color = color;
-        this->icon = icon;
+        message = iMessage;
+        time = iTime;
+        frontColor = iFrontColor;
+        backColor = iBackColor;
+        icon = 0;
+    }
+    
+    Message( UTexture2D* iTex, FString iMessage, float iTime, FColor iFrontColor, FColor iBackColor )
+    {
+        icon = iTex;
+        message = iMessage;
+        time = iTime;
+        frontColor = iFrontColor;
+        backColor = iBackColor;
+    }
+};
+
+struct Icon
+{
+    FString name;
+    UTexture2D* icon;
+    
+    Icon()
+    {
+        name = "UNKNOWN ICON";
+        icon = 0;
+    }
+    
+    Icon( FString& iName, UTexture2D* iTex )
+    {
+        name = iName;
+        icon = iTex;
+    }
+};
+
+struct Widget
+{
+    Icon icon;
+    // in case you need to drop an item, this is the class the item was from
+    UClass *className;
+    FVector2D pos, size;
+    Widget(Icon iicon, UClass *iClassName)
+    {
+        icon = iicon;
+        className = iClassName;
+    }
+    float left(){ return pos.X; }
+    float right(){ return pos.X + size.X; }
+    float top(){ return pos.Y; }
+    float bottom(){ return pos.Y + size.Y; }
+    bool hit( FVector2D v )
+    {
+        // +---+ top (0)
+        // |   |
+        // +---+ bottom (2) (bottom > top)
+        // L   R
+        return v.X > left() && v.X < right() && v.Y > top() && v.Y < bottom();
     }
 };
 
@@ -36,16 +92,27 @@ class LEARNUE4CPPANDACTORS_API AMyHUD : public AHUD
 {
 	GENERATED_BODY()
     
+    FVector2D dims;
     TArray<Message> messages;
+    TArray<Widget> widgets;
+    Widget* heldWidget;
+    
     void DrawMessages();
     void DrawHealthBar();
+    void DrawWidgets();
     
     float barWidth = 200, barHeight = 15;
     float barPad = 1, barMargin = 25;
     
 public:
+    AMyHUD();
+    
     virtual void DrawHUD() override;
     virtual void addMessage(Message msg);
+    virtual void addWidget(Widget widget);
+    virtual void clearWidgets();
+    void MouseClicked();
+    void MouseMoved();
     
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=HUDFont)
     UFont* hudFont;

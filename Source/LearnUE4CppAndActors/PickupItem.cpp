@@ -24,6 +24,7 @@ APickupItem::APickupItem()
     ProxSphere->OnComponentBeginOverlap.AddDynamic(this, &APickupItem::Prox);
 }
 
+
 // Called when the game starts or when spawned
 void APickupItem::BeginPlay()
 {
@@ -31,12 +32,14 @@ void APickupItem::BeginPlay()
 	
 }
 
+
 // Called every frame
 void APickupItem::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
 }
+
 
 void APickupItem::Prox_Implementation(AActor* OtherActor, UPrimitiveComponent* OtherComp,
                                       int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
@@ -51,8 +54,8 @@ void APickupItem::Prox_Implementation(AActor* OtherActor, UPrimitiveComponent* O
     
     APlayerController* p_Controller = GetWorld()->GetFirstPlayerController();
     AMyHUD* p_HUD = Cast<AMyHUD>(p_Controller->GetHUD());
-    p_HUD->addMessage(Message(
-        FString("Picked up ") + FString::FromInt(Quantity) + FString(" ") + Name, 5.f, FColor::White, Icon)
+    p_HUD->addMessage(Message(Icon, FString("Picked up ") + FString::FromInt(Quantity) +
+        FString(" ") + Name, 5.f, FColor::White, FColor::Black )
     );
     
     Destroy();

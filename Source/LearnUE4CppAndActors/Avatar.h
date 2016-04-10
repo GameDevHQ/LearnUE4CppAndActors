@@ -14,8 +14,11 @@ class LEARNUE4CPPANDACTORS_API AAvatar : public ACharacter
     // A map for the players backpack
     TMap<FString, int> Backpack;
     
-    // The icons for the items in the backpack, lookup by string
+    // Individual maps for string name => Icon, Spell it casts, etc.
     TMap<FString, UTexture2D*> Icons;
+    TMap<FString, UClass*> Classes;
+    
+    void passMouseActionToHUD();
     
 public:
 	// Sets default values for this character's properties
@@ -48,4 +51,6 @@ public:
     // Inventory subsystem
     void ToggleInventory();
     void Pickup(APickupItem* item);
+    void MouseClicked();
+    
 };
