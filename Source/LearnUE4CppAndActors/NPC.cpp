@@ -6,40 +6,15 @@
 #include "MyHUD.h"
 
 // Sets default values
-ANPC::ANPC()
+ANPC::ANPC(const class FObjectInitializer& PCIP) : Super(PCIP)
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-    
-    ProxSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Proximity sphere"));
+    ProxSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("ProxSphere"));
     ProxSphere->AttachTo(RootComponent);
     ProxSphere->SetSphereRadius(128.0f);
-    ProxSphere->OnComponentBeginOverlap.AddDynamic(this, &ANPC::Prox);
+    ProxSphere->OnComponentBeginOverlap.AddDynamic( this, &ANPC::Prox );
+    
     DefaultMessage = "Hi, I'm NPC!";
-    Name = "NPC";
-}
-
-
-// Called when the game starts or when spawned
-void ANPC::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-
-// Called every frame
-void ANPC::Tick( float DeltaTime )
-{
-	Super::Tick( DeltaTime );
-
-}
-
-
-// Called to bind functionality to input
-void ANPC::SetupPlayerInputComponent(class UInputComponent* InputComponent)
-{
-	Super::SetupPlayerInputComponent(InputComponent);
+    Name = "Unknown NPC";
 }
 
 

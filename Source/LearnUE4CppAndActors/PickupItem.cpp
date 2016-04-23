@@ -6,38 +6,18 @@
 #include "PickupItem.h"
 
 
-// Sets default values
-APickupItem::APickupItem()
+APickupItem::APickupItem(const class FObjectInitializer& PCIP): Super(PCIP)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-    
     Name = "Unknown item";
     Quantity = 0;
-    Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-    ProxSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Proximity sphere"));
     
+    Mesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("Mesh"));
     RootComponent = Mesh;
     Mesh->SetSimulatePhysics(true);
-
+    
+    ProxSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("Proximity sphere"));
     ProxSphere->AttachTo(Mesh);
     ProxSphere->OnComponentBeginOverlap.AddDynamic(this, &APickupItem::Prox);
-}
-
-
-// Called when the game starts or when spawned
-void APickupItem::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-
-// Called every frame
-void APickupItem::Tick( float DeltaTime )
-{
-	Super::Tick( DeltaTime );
-
 }
 
 
@@ -55,8 +35,10 @@ void APickupItem::Prox_Implementation(AActor* OtherActor, UPrimitiveComponent* O
     APlayerController* p_Controller = GetWorld()->GetFirstPlayerController();
     AMyHUD* p_HUD = Cast<AMyHUD>(p_Controller->GetHUD());
     p_HUD->addMessage(Message(Icon, FString("Picked up ") + FString::FromInt(Quantity) +
-        FString(" ") + Name, 5.f, FColor::White, FColor::Black )
-    );
+                              FString(" ") + Name, 5.f, FColor::White, FColor::Black)
+                      );
     
     Destroy();
 }
+
+

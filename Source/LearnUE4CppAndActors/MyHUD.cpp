@@ -5,27 +5,22 @@
 #include "Avatar.h"
 
 
-AMyHUD::AMyHUD()
+AMyHUD::AMyHUD(const class FObjectInitializer& PCIP) : Super(PCIP)
 {
-    heldWidget = 0;
+    heldWidget = nullptr;
 }
 
 
 void AMyHUD::DrawHUD()
 {
     Super::DrawHUD();
-    
+
     dims.X = Canvas->SizeX;
     dims.Y = Canvas->SizeY;
-    
+
     DrawMessages();
     DrawHealthBar();
     DrawWidgets();
-}
-
-void AMyHUD::addMessage(Message msg)
-{
-    messages.Add(msg);
 }
 
 
@@ -34,7 +29,7 @@ void AMyHUD::DrawMessages()
     float pad = 10.f;
     int sizeX = Canvas->SizeX;
     
-    for(int i=messages.Num() - 1; i>=0; i--)
+    for(int i=messages.Num()-1; i>=0; i--)
     {
         float outputWight, outputHeigh;
         GetTextSize(messages[i].message, outputWight, outputHeigh, hudFont, 1.f);
@@ -61,15 +56,27 @@ void AMyHUD::DrawMessages()
 }
 
 
+void AMyHUD::DrawWidgets()
+{
+    for(int i=0; i<widgets.Num(); i++)
+    {
+        DrawTexture(widgets[i].icon.icon, widgets[i].pos.X, widgets[i].pos.Y,
+                    widgets[i].size.X, widgets[i].size.Y, 0, 0, 1, 1);
+        DrawText(widgets[i].icon.name, FLinearColor::White,
+                 widgets[i].pos.X, widgets[i].pos.Y, hudFont, .3f, false);
+    }
+}
+
+
 void AMyHUD::DrawHealthBar()
 {
     AAvatar* avatar = Cast<AAvatar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-
+    
     if (avatar == nullptr)
     {
         return;
     }
-
+    
     float percentageHp = avatar->CurrentHP / avatar->MaxHP;
     
     DrawRect(FColor::White,
@@ -84,15 +91,47 @@ void AMyHUD::DrawHealthBar()
 }
 
 
-void AMyHUD::DrawWidgets()
+void AMyHUD::MouseClicked()
 {
+    FVector2D mouse;
+    
+    APlayerController *PController = GetWorld()->GetFirstPlayerController();
+    PController->GetMousePosition(mouse.X, mouse.Y);
+    
     for(int i=0; i<widgets.Num(); i++)
     {
-        DrawTexture(widgets[i].icon.icon, widgets[i].pos.X, widgets[i].pos.Y,
-                    widgets[i].size.X, widgets[i].size.Y, 0, 0, 1, 1);
-        DrawText(widgets[i].icon.name, FLinearColor::White,
-                 widgets[i].pos.X, widgets[i].pos.Y, hudFont, .3f, false);
+        if(widgets[i].hit(mouse))
+        {
+            heldWidget = &widgets[i];
+            return;
+        }
     }
+}
+
+
+void AMyHUD::MouseMoved()
+{
+    APlayerController *PController = GetWorld()->GetFirstPlayerController();
+    float time = PController->GetInputKeyTimeDown(EKeys::LeftMouseButton);
+    
+    static FVector2D lastMouse;
+    FVector2D thisMouse, dMouse;
+    PController->GetMousePosition( thisMouse.X, thisMouse.Y );
+    dMouse = thisMouse - lastMouse;
+    
+    if(time > 0.f && heldWidget)
+    {
+        heldWidget->pos.X += dMouse.X;
+        heldWidget->pos.Y += dMouse.Y;
+    }
+    
+    lastMouse = thisMouse;
+}
+
+
+void AMyHUD::addMessage(Message msg)
+{
+    messages.Add(msg);
 }
 
 
@@ -104,16 +143,16 @@ void AMyHUD::clearWidgets()
 
 void AMyHUD::addWidget(Widget widget)
 {
-    FVector2D start(150, 150), pad( 12, 12 );
+    FVector2D start(150, 150), pad(12, 12);
     widget.size = FVector2D(50, 50);
     widget.pos = start;
-    
+
     // Compute the position here
-    for( int c = 0; c < widgets.Num(); c++ )
+    for(int i=0; i<widgets.Num(); i++)
     {
         // Move the position to the right a bit
         widget.pos.X += widget.size.X + pad.X;
-        
+
         // If there is no more room to the right then, jump to the next line
         if( widget.pos.X + widget.size.X > dims.X )
         {
@@ -125,37 +164,10 @@ void AMyHUD::addWidget(Widget widget)
 }
 
 
-void AMyHUD::MouseClicked()
+void AMyHUD::debug(int slot, FColor color, FString message)
 {
-    FVector2D mouse;
-    APlayerController *PController = GetWorld()->GetFirstPlayerController();
-    
-    PController->GetMousePosition(mouse.X, mouse.Y);
-    for(int i=0; i<widgets.Num(); i++)
+    if(GEngine)
     {
-        if(widgets[i].hit(mouse))
-        {
-            heldWidget = &widgets[i];
-            return;
-        }
+        GEngine->AddOnScreenDebugMessage(slot, 5.f, color, message);
     }
-}
-
-void AMyHUD::MouseMoved()
-{
-    APlayerController *PController = GetWorld()->GetFirstPlayerController();
-    float time = PController->GetInputKeyTimeDown(EKeys::LeftMouseButton);
-    
-    static FVector2D lastMouse;
-    FVector2D thisMouse, dMouse;
-    PController->GetMousePosition(thisMouse.X, thisMouse.Y);
-    dMouse = thisMouse - lastMouse;
-    
-    if( time > 0.f && heldWidget )
-    {
-        heldWidget->pos.X += dMouse.X;
-        heldWidget->pos.Y += dMouse.Y;
-    }
-    
-    lastMouse = thisMouse;
 }
