@@ -84,41 +84,6 @@ struct Widget
     }
 };
 
-/*
- *
-*/
-//UCLASS()
-//class LEARNUE4CPPANDACTORS_API AMyHUD : public AHUD
-//{
-//	GENERATED_BODY()
-//    
-//    FVector2D dims;
-//    TArray<Message> messages;
-//    TArray<Widget> widgets;
-//    Widget* heldWidget;
-//    
-//    void DrawMessages();
-//    void DrawHealthBar();
-//    void DrawWidgets();
-//    
-//    float barWidth = 200, barHeight = 15;
-//    float barPad = 1, barMargin = 25;
-//    
-//protected:
-//    
-//public:
-//    AMyHUD();
-//    
-//    virtual void DrawHUD() override;
-//    virtual void addMessage(Message msg);
-//    virtual void addWidget(Widget widget);
-//    virtual void clearWidgets();
-//    void MouseClicked();
-//    void MouseMoved();
-//    
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=HUDFont)
-//    UFont* hudFont;
-//};
 
 UCLASS()
 class LEARNUE4CPPANDACTORS_API AMyHUD : public AHUD

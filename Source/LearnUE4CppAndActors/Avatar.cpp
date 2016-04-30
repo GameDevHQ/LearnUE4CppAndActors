@@ -43,10 +43,7 @@ void AAvatar::MouseClicked()
 
 void AAvatar::MoveForward(float amount)
 {
-    if (inventoryShowing)
-    {
-        return;
-    }
+    if (inventoryShowing) { return; }
 
     if (Controller && amount)
     {
@@ -58,10 +55,7 @@ void AAvatar::MoveForward(float amount)
 
 void AAvatar::MoveStrafe(float amount)
 {
-    if (inventoryShowing)
-    {
-        return;
-    }
+    if (inventoryShowing) { return; }
 
     if (Controller && amount)
     {
@@ -76,11 +70,12 @@ void AAvatar::Yaw(float amount)
     if (inventoryShowing)
     {
         passMouseActionToHUD();
-        return;
     }
-
-    float value = 200.f * amount * GetWorld()->GetDeltaSeconds();
-    AddControllerYawInput(value);
+    else
+    {
+        float value = 200.f * amount * GetWorld()->GetDeltaSeconds();
+        AddControllerYawInput(value);
+    }
 }
 
 
@@ -89,11 +84,12 @@ void AAvatar::Pitch(float amount)
     if (inventoryShowing)
     {
         passMouseActionToHUD();
-        return;
     }
-
-    float value = 200.f * amount * GetWorld()->GetDeltaSeconds();
-    AddControllerPitchInput(value);
+    else
+    {
+        float value = 200.f * amount * GetWorld()->GetDeltaSeconds();
+        AddControllerPitchInput(value);
+    }
 }
 
 

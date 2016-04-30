@@ -6,6 +6,7 @@ This project created for getting experience with Unreal Engine 4 in C++ and Acto
 - Downloaded assets (don't worry, they are all FREE):
   - From marketplace
     - Animation starter pack
+    – Mixamo Animation Pack
   - From "Learn" – "Engine feature samples"
     - Content Examples
 - Visual Studio 2015 or XCode 7.3
