@@ -2,6 +2,7 @@
 
 #include "LearnUE4CppAndActors.h"
 #include "Avatar.h"
+#include "MeleeWeapon.h"
 #include "Monster.h"
 
 
@@ -14,8 +15,10 @@ AMonster::AMonster(const class FObjectInitializer& PCIP): Super(PCIP)
     HitPoints = 20;
     Experience = 0;
     BPLoot = nullptr;
+    BPMeleeWeapon = nullptr;
     AttackTimeout = 1.5f;
     TimeSinceLastStrike = 0;
+    MeleeWeapon = nullptr;
     
     SightSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("SightSphere"));
     SightSphere->AttachTo(RootComponent);
@@ -50,5 +53,29 @@ void AMonster::Tick(float DeltaTime)
     // Move the monster towards to player a bit
     AddMovementInput(toPlayer, Speed * DeltaTime);
     
+}
+
+
+void AMonster::PostInitializeComponents()
+{
+    Super::PostInitializeComponents();
+    
+    // Instantiate the melee weapon if a bp was selected
+    if( BPMeleeWeapon )
+    {
+        MeleeWeapon = GetWorld()->SpawnActor<AMeleeWeapon>(BPMeleeWeapon, FVector(0), FRotator(0));
+        
+        if(MeleeWeapon)
+        {
+            //MeleeWeapon->WeaponHolder = this;
+            const USkeletalMeshSocket *socket = GetMesh()->GetSocketByName("RightHandSocket");
+            socket->AttachActor( MeleeWeapon, GetMesh());
+        }
+        else
+        {
+            FString message = GetName() + FString(" cannot instantiate meleeweapon ") + BPMeleeWeapon->GetName();
+            GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Yellow, message);
+        }
+    }
 }
 

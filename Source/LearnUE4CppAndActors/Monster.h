@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "Monster.generated.h"
 
+
 UCLASS()
 class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
 {
@@ -23,6 +24,9 @@ class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
     UClass* BPLoot;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=MonsterProperties)
+    UClass* BPMeleeWeapon;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=MonsterProperties)
     float BaseAttackDamage;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=MonsterProperties)
@@ -37,10 +41,15 @@ class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
     USphereComponent* AttackRangeSphere;
     
+    // The melee weapon instance (set if the character is using a melee weapon)
+    AActor* MeleeWeapon;
+    
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
     
     // Utility functions
     inline bool isInAttackRange(float d) {return d < AttackRangeSphere->GetScaledSphereRadius();}
     inline bool isInSightRange(float d) {return d < SightSphere->GetScaledSphereRadius();}
+    
+    virtual void PostInitializeComponents() override;
 };
