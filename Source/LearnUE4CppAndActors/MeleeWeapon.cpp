@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LearnUE4CppAndActors.h"
-#include "Monster.h"
 #include "MeleeWeapon.h"
+#include "Monster.h"
 
 
 AMeleeWeapon::AMeleeWeapon(const class FObjectInitializer& PCIP): Super(PCIP)

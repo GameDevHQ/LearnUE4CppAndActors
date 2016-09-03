@@ -3,8 +3,9 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "Monster.h"
 #include "MeleeWeapon.generated.h"
+
+class AMonster;
 
 
 UCLASS()

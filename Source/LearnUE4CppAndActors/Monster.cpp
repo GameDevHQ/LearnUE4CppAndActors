@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LearnUE4CppAndActors.h"
+#include "Monster.h"
 #include "Avatar.h"
 #include "MeleeWeapon.h"
-#include "Monster.h"
 
 
 AMonster::AMonster(const class FObjectInitializer& PCIP): Super(PCIP)
@@ -67,9 +67,9 @@ void AMonster::PostInitializeComponents()
         
         if(MeleeWeapon)
         {
-            //MeleeWeapon->WeaponHolder = this;
+            MeleeWeapon->WeaponHolder = this;
             const USkeletalMeshSocket *socket = GetMesh()->GetSocketByName("RightHandSocket");
-            socket->AttachActor( MeleeWeapon, GetMesh());
+            socket->AttachActor(MeleeWeapon, GetMesh());
         }
         else
         {

@@ -5,6 +5,8 @@
 #include "GameFramework/Character.h"
 #include "Monster.generated.h"
 
+class AMeleeWeapon;
+
 
 UCLASS()
 class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
@@ -42,7 +44,7 @@ class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
     USphereComponent* AttackRangeSphere;
     
     // The melee weapon instance (set if the character is using a melee weapon)
-    AActor* MeleeWeapon;
+    AMeleeWeapon* MeleeWeapon;
     
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
