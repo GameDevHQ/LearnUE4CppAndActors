@@ -28,6 +28,8 @@ class LEARNUE4CPPANDACTORS_API AMeleeWeapon : public AActor
     // the weapon is hitting himself
     AMonster* WeaponHolder;
     
+    UCapsuleComponent* ProxCapsule;
+    
     // The sphere you collide with to pick item up
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = MeleeWeapon)
     UBoxComponent* ProxBox;

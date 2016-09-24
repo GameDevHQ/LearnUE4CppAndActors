@@ -11,8 +11,11 @@ AMeleeWeapon::AMeleeWeapon(const class FObjectInitializer& PCIP): Super(PCIP)
     Swinging = false;
     WeaponHolder = nullptr;
     
+    ProxCapsule = PCIP.CreateDefaultSubobject<UCapsuleComponent>(this, TEXT("ProxCapsule"));
+    RootComponent = ProxCapsule;
+    
     Mesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("Mesh"));
-    RootComponent = Mesh;
+    Mesh->AttachTo(RootComponent);
     
     ProxBox = PCIP.CreateDefaultSubobject<UBoxComponent>(this, TEXT("ProxBox"));
     ProxBox->OnComponentBeginOverlap.AddDynamic(this, &AMeleeWeapon::Prox);

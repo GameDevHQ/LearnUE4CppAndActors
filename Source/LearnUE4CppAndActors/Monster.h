@@ -26,7 +26,7 @@ class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
     UClass* BPLoot;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=MonsterProperties)
-    UClass* BPMeleeWeapon;
+    TSubclassOf<AActor> BPMeleeWeapon;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=MonsterProperties)
     float BaseAttackDamage;

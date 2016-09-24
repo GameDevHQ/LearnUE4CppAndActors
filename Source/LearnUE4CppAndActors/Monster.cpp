@@ -61,15 +61,14 @@ void AMonster::PostInitializeComponents()
     Super::PostInitializeComponents();
     
     // Instantiate the melee weapon if a bp was selected
-    if( BPMeleeWeapon )
+    if(BPMeleeWeapon)
     {
         MeleeWeapon = GetWorld()->SpawnActor<AMeleeWeapon>(BPMeleeWeapon, FVector(0), FRotator(0));
         
         if(MeleeWeapon)
         {
             MeleeWeapon->WeaponHolder = this;
-            const USkeletalMeshSocket *socket = GetMesh()->GetSocketByName("RightHandSocket");
-            socket->AttachActor(MeleeWeapon, GetMesh());
+            MeleeWeapon->AttachRootComponentTo(GetMesh(), FName(TEXT("RightHandSocket")), EAttachLocation::SnapToTarget);
         }
         else
         {
