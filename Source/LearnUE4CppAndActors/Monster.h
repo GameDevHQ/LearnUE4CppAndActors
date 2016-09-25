@@ -46,8 +46,8 @@ class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
     // The melee weapon instance (set if the character is using a melee weapon)
     AMeleeWeapon* MeleeWeapon;
     
-	// Called every frame
-	virtual void Tick(float DeltaSeconds) override;
+    // Called every frame
+    virtual void Tick(float DeltaSeconds) override;
     
     // Utility functions
     inline bool isInAttackRange(float d) {return d < AttackRangeSphere->GetScaledSphereRadius();}
