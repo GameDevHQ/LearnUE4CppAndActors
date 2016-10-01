@@ -78,3 +78,12 @@ void AMonster::PostInitializeComponents()
     }
 }
 
+
+void AMonster::SwordSwung()
+{
+    if (MeleeWeapon)
+    {
+        MeleeWeapon->Swing();
+    }
+}
+

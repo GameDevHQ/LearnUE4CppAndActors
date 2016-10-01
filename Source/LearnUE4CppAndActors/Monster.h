@@ -43,6 +43,9 @@ class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
     USphereComponent* AttackRangeSphere;
     
+    UFUNCTION(BlueprintCallable, Category=Collision)
+    void SwordSwung();
+    
     // The melee weapon instance (set if the character is using a melee weapon)
     AMeleeWeapon* MeleeWeapon;
     
