@@ -24,8 +24,12 @@ class LEARNUE4CPPANDACTORS_API AAvatar : public ACharacter
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerProperties)
     float MaxHP;
     
+    int32 Experience;
+    
     // Called to bind functionality to input
     void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+    
+    FVector Knockback;
     
     // Movement actions
     void MoveForward(float amount);
@@ -39,7 +43,12 @@ class LEARNUE4CPPANDACTORS_API AAvatar : public ACharacter
     // Inventory subsystem
     void ToggleInventory();
     void Pickup(APickupItem* item);
+    void Drop(UClass *className);
+    
     void MouseClicked();
     void passMouseActionToHUD();
-    void Drop(UClass *className);
+    
+    // Taking damage from a monster
+    virtual void Tick(float DeltaSeconds) override;
+    virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 };

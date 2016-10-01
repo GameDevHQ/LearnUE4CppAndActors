@@ -148,3 +148,36 @@ void AAvatar::passMouseActionToHUD()
     AMyHUD* p_HUD = Cast<AMyHUD>(p_Controller->GetHUD());
     p_HUD->MouseMoved();
 }
+
+
+void AAvatar::Tick( float DeltaSeconds )
+{
+    Super::Tick(DeltaSeconds);
+    AddMovementInput(Knockback, 1.f);
+    Knockback *= 0.5f;
+}
+
+
+float AAvatar::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+    Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+    CurrentHP -= Damage;
+    
+    // Add some knockback that gets applied over a few frames
+    Knockback = GetActorLocation() - DamageCauser->GetActorLocation();
+    Knockback.Normalize();
+    Knockback *= Damage * 500;
+    
+    // If he goes below 0 hp, he will die
+    if(CurrentHP <= 0 ) { CurrentHP = 0; }
+    return Damage;
+}
+
+
+void AAvatar::Drop(UClass *className)
+{
+    GetWorld()->SpawnActor<AActor>(
+        className, GetActorLocation() + GetActorForwardVector()*200 + FVector(0, 0, 200), FRotator::ZeroRotator
+    );
+}
+
