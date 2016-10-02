@@ -11,7 +11,7 @@ class LEARNUE4CPPANDACTORS_API ABullet : public AActor
     GENERATED_UCLASS_BODY()
     
     // How much damage the bullet does.
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Properties)
     float Damage;
     
     AActor* Firer;

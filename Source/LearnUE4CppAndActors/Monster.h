@@ -45,10 +45,10 @@ class LEARNUE4CPPANDACTORS_API AMonster : public ACharacter
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=MonsterProperties)
     float BulletLaunchImpulse;
     
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category=Collision)
     USphereComponent* SightSphere;
     
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category=Collision)
     USphereComponent* AttackRangeSphere;
     
     UFUNCTION(BlueprintCallable, Category=Collision)

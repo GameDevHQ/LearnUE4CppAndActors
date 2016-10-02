@@ -18,10 +18,10 @@ class LEARNUE4CPPANDACTORS_API AAvatar : public ACharacter
     TMap<FString, UClass*> Classes;
     bool inventoryShowing;
     
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerProperties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=PlayerProperties)
     float CurrentHP;
     
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerProperties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=PlayerProperties)
     float MaxHP;
     
     int32 Experience;

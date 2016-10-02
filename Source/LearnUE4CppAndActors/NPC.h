@@ -11,16 +11,16 @@ class LEARNUE4CPPANDACTORS_API ANPC : public ACharacter
 {
     GENERATED_UCLASS_BODY()
     
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Collision)
     USphereComponent* ProxSphere;
-    
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=NPCMessage)
     FString Name;
     
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=NPCMessage)
     FString DefaultMessage;
     
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=NPCMessage)
     UTexture2D* Icon;
     
     UFUNCTION(BlueprintNativeEvent, Category = Collision)

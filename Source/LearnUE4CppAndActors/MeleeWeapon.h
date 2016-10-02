@@ -31,10 +31,10 @@ class LEARNUE4CPPANDACTORS_API AMeleeWeapon : public AActor
     UCapsuleComponent* ProxCapsule;
     
     // The sphere you collide with to pick item up
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = MeleeWeapon)
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category=MeleeWeapon)
     UBoxComponent* ProxBox;
     
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = MeleeWeapon)
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category=MeleeWeapon)
     UStaticMeshComponent* Mesh;
     
     UFUNCTION(BlueprintNativeEvent, Category = Collision)
