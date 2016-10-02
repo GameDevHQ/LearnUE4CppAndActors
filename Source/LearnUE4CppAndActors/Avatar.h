@@ -13,6 +13,9 @@ class LEARNUE4CPPANDACTORS_API AAvatar : public ACharacter
     // A map for the backpack
     TMap<FString, int> Backpack;
     
+    // A map for spells possible to cast by player
+    TMap<FString, UClass*> Spells;
+    
     // Individual maps for string name => Icon, Spell it casts, etc.
     TMap<FString, UTexture2D*> Icons;
     TMap<FString, UClass*> Classes;
@@ -51,4 +54,8 @@ class LEARNUE4CPPANDACTORS_API AAvatar : public ACharacter
     // Taking damage from a monster
     virtual void Tick(float DeltaSeconds) override;
     virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+    
+    // Spell casting
+    void CastSpell(UClass* bpSpell);
+    void MouseRightClicked();
 };

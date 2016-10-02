@@ -3,6 +3,7 @@
 #include "LearnUE4CppAndActors.h"
 #include "MyHUD.h"
 #include "Avatar.h"
+#include "Spell.h"
 
 
 AAvatar::AAvatar(const class FObjectInitializer& PCIP) : Super(PCIP)
@@ -27,6 +28,7 @@ void AAvatar::SetupPlayerInputComponent(class UInputComponent* InputComponent)
     // InventorySubsytems
     InputComponent->BindAction("Inventory", IE_Pressed, this, &AAvatar::ToggleInventory);
     InputComponent->BindAction("MouseClickedLMB", IE_Pressed, this, &AAvatar::MouseClicked);
+    InputComponent->BindAction("MouseClickedRMB", IE_Pressed, this, &AAvatar::MouseRightClicked);
 }
 
 
@@ -104,6 +106,7 @@ void AAvatar::Pickup(APickupItem* item)
         Backpack.Add(item->Name, item->Quantity);
         Icons.Add(item->Name, item->Icon);
         Classes.Add(item->Name, item->GetClass());
+        Spells.Add(item->Name, item->Spell);
     }
 }
 
@@ -132,10 +135,11 @@ void AAvatar::ToggleInventory()
         // Combine string name of the item, with quantity of it
         FString fs = it->Key + FString::Printf( TEXT(" x %d"), it->Value );
         UTexture2D* tex = NULL;
-        if( Icons.Find( it->Key ) )
+        if(Icons.Find(it->Key))
         {
             tex = Icons[it->Key];
             Widget new_widget(Icon(fs, tex ), Classes[it->Key]);
+            new_widget.bpSpell = Spells[it->Key];
             p_HUD->addWidget(new_widget);
         }
     }
@@ -169,7 +173,7 @@ float AAvatar::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, 
     Knockback *= Damage * 500;
     
     // If he goes below 0 hp, he will die
-    if(CurrentHP <= 0 ) { CurrentHP = 0; }
+    if(CurrentHP <= 0) { CurrentHP = 0; }
     return Damage;
 }
 
@@ -180,4 +184,31 @@ void AAvatar::Drop(UClass *className)
         className, GetActorLocation() + GetActorForwardVector()*200 + FVector(0, 0, 200), FRotator::ZeroRotator
     );
 }
+
+
+void AAvatar::CastSpell(UClass* bpSpell)
+{
+    ASpell* spell = GetWorld()->SpawnActor<ASpell>(bpSpell, FVector(0), FRotator(0));
+    
+    if (spell)
+    {
+        spell->SetCaster(this);
+    }
+    else
+    {
+        GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Yellow, FString("can't cast ") + bpSpell->GetName());
+    }
+}
+
+
+void AAvatar::MouseRightClicked()
+{
+    if (inventoryShowing)
+    {
+        APlayerController* PController = GetWorld()->GetFirstPlayerController();
+        AMyHUD* hud = Cast<AMyHUD>(PController->GetHUD());
+        hud->MouseRightClicked();
+    }
+}
+
 

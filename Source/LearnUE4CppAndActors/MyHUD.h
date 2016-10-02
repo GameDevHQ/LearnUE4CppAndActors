@@ -64,6 +64,8 @@ struct Widget
     Icon icon;
     // in case you need to drop an item, this is the class the item was from
     UClass *className;
+    // blueprint of the spell this widget casts
+    UClass* bpSpell;
     FVector2D pos, size;
     Widget(Icon iicon, UClass *iClassName)
     {
@@ -108,6 +110,7 @@ class LEARNUE4CPPANDACTORS_API AMyHUD : public AHUD
     virtual void DrawHUD() override;
     
     void MouseClicked();
+    void MouseRightClicked();
     void MouseMoved();
     
     void addMessage(Message msg);

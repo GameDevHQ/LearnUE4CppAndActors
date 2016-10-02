@@ -162,6 +162,8 @@ float AMonster::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent,
         // award the avatar exp
         AAvatar *avatar = Cast<AAvatar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
         avatar->Experience += Experience;
+        
+        if (MeleeWeapon) { MeleeWeapon->Destroy(); }
         Destroy();
     }
     

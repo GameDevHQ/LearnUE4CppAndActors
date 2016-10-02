@@ -98,7 +98,7 @@ void AMyHUD::MouseClicked()
     APlayerController *PController = GetWorld()->GetFirstPlayerController();
     PController->GetMousePosition(mouse.X, mouse.Y);
     
-    for(int i=0; i<widgets.Num(); i++)
+    for(int i = 0; i < widgets.Num(); i++)
     {
         if(widgets[i].hit(mouse))
         {
@@ -107,6 +107,24 @@ void AMyHUD::MouseClicked()
         }
     }
 }
+
+
+void AMyHUD::MouseRightClicked()
+{
+    FVector2D mouse;
+    APlayerController *PController = GetWorld()->GetFirstPlayerController();
+    PController->GetMousePosition(mouse.X, mouse.Y);
+    
+    for(int i = 0; i < widgets.Num(); i++)
+    {
+        if( widgets[i].hit(mouse))
+        {
+            AAvatar *avatar = Cast<AAvatar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+            if(widgets[i].bpSpell) avatar->CastSpell(widgets[i].bpSpell);
+        }
+    }
+}
+
 
 
 void AMyHUD::MouseMoved()
