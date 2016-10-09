@@ -10,3 +10,9 @@ This project created for getting experience with Unreal Engine 4 in C++ and Acto
   - From "Learn" – "Engine feature samples"
     - Content Examples
 - Visual Studio 2015 or XCode 7.3
+
+# Features
+- Displaying NPC dialog box
+- Inventory system and pickup items
+- Monsters with melee weapon supporting
+- Spellcasting by player
