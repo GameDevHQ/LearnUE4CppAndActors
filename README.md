@@ -14,5 +14,5 @@ This project created for getting experience with Unreal Engine 4 in C++ and Acto
 # Features
 - Displaying NPC dialog box
 - Inventory system and pickup items
-- Monsters with melee weapon supporting
+- Monsters with melee weapon support
 - Spellcasting by player
